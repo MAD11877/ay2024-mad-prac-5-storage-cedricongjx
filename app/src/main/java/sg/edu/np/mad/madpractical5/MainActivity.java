@@ -1,12 +1,19 @@
+
 package sg.edu.np.mad.madpractical5;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,5 +27,69 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        DatabaseHandler databaseHandler = new DatabaseHandler(this,null,null,1);
+        Intent recieveing_end = getIntent();
+        String key = recieveing_end.getStringExtra("Key");
+        User user = new User("John Doe", "MAD Developer",1,false);
+        String name = recieveing_end.getStringExtra("Name");
+        String desc = recieveing_end.getStringExtra("Description");
+        boolean followed = recieveing_end.getBooleanExtra("Followed",false);
+        int id = recieveing_end.getIntExtra("Id",1);
+        int position = recieveing_end.getIntExtra("Position",0);
+        user.setName(name);
+        user.setDescription(desc);
+        user.setFollowed(followed);
+        user.setId(id);
+        TextView tvName = findViewById(R.id.textView2);
+        TextView tvDescription = findViewById(R.id.textView3);
+
+        Button btnFollow = findViewById(R.id.button);
+        Button btnMessage = findViewById(R.id.button2);
+
+        tvName.setText(user.getName());
+        tvDescription.setText(user.getDescription());
+        btnFollow.setText("Follow");
+
+        if(user.getFollowed())
+        {
+            btnFollow.setText("Unfollow");
+        }
+        else
+        {
+            btnFollow.setText("Follow");
+        }
+        btnFollow.setOnClickListener(new View.OnClickListener() {
+            //            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("Updating_user_follow_status");
+                user.setFollowed(!user.getFollowed());
+                databaseHandler.updateUser(user);
+                if(user.getFollowed())
+                {
+                    btnFollow.setText("Unfollow");
+                    Toast.makeText(getApplicationContext(),"Followed",Toast.LENGTH_SHORT).show();
+//                    System.out.println("followed");
+
+                }
+                else
+                {
+
+                    btnFollow.setText("Follow");
+                    Toast.makeText(getApplicationContext(),"Unfollowed",Toast.LENGTH_SHORT).show();
+//                    System.out.println("unfollowed");
+
+                }
+                intent.putExtra("Followed",user.getFollowed());
+                intent.putExtra("Position",position);
+                LocalBroadcastManager.getInstance(v.getContext()).sendBroadcast(intent);
+            }
+        });
+
+
+
+
+
+
     }
 }
