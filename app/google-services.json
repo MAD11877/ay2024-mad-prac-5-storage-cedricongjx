@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "790609974790",
+    "project_id": "mad-cedric",
+    "storage_bucket": "mad-cedric.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790609974790:android:166e3669efde1c9721d587",
+        "android_client_info": {
+          "package_name": "sg.edu.np.mad.madpractical5"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1kuhriF2675PifyWJhEXkw_Y4SAaxT-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
